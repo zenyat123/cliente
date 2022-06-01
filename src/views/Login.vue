@@ -71,12 +71,9 @@
 
 			login() {
 
-				this.axios.post('/oauth/token', {
+				this.axios.post('/api/login', {
 
-					grant_type: 'password',
-					client_id: '96705652-eb8b-4854-a6ce-981fc2ede52c',
-					client_secret: 'qITW9dzo9czrGrLr2BQgCc1TeHZxFlg9eqfvIfOV',
-					username: this.email,
+					email: this.email,
 					password: this.password
 
 				}).then(response => {

@@ -1,6 +1,7 @@
 
 
 import { createStore } from 'vuex'
+import axios from 'axios'
 
 export default createStore({
 
@@ -34,9 +35,13 @@ export default createStore({
 
 		logout() {
 
-			localStorage.removeItem('auth');
+			axios.post('/api/logout').then( () => {
 
-			location.reload();
+				localStorage.removeItem('auth');
+
+				location.reload();
+
+			});
 
 		}
 
