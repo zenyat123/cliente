@@ -33,7 +33,7 @@
     import { ref, onMounted } from 'vue'
     import { useRoute, useRouter } from 'vue-router'
     import { IEmployee } from '../interfaces/constants'
-    import api from '../services/api'
+    import employeeService from '../services/employeeService'
 
     const route = useRoute()
     const router = useRouter()
@@ -42,7 +42,7 @@
 
     const getEmployee = async () => {
 
-        const response = await api.get('/employees/'+route.params.id)
+        const response = await employeeService.show(route.params.id as string)
 
         employee.value = response.data.data
 
@@ -52,7 +52,7 @@
 
         if(confirm('¿Confirma la eliminación del identificador '+id+'?')) {
 
-            await api.delete('/employees/'+id)
+            await employeeService.delete(id)
 
             router.push('/employees')
 
@@ -60,11 +60,7 @@
 
     }
 
-    onMounted(() => {
-
-        getEmployee()
-
-    })
+    onMounted(getEmployee)
 
 </script>
 

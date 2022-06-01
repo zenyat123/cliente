@@ -39,13 +39,14 @@
 <script lang = "ts" setup>
 
     import { ref, computed, watch } from 'vue'
-    import { useRouter } from 'vue-router'
+    import { useRoute, useRouter } from 'vue-router'
     import { IEmployee } from '../interfaces/constants'
-    import api from '../services/api'
+    import employeeService from '../services/employeeService'
 
     import InputNew from '@/components/InputNew.vue'
     import ButtonNew from '@/components/ButtonNew.vue'
 
+    const route = useRoute()
     const router = useRouter()
 
     const props = defineProps<{mode: IEmployee | null}>()
@@ -72,11 +73,11 @@
 
         if(!edit.value) {
 
-            await api.post('/employees', form.value)
+            await employeeService.save(form.value)
 
         } else {
 
-            await api.put('/employees/'+edit.value.id, form.value)
+            await employeeService.update(route.params.id as string, form.value)
 
         }
 

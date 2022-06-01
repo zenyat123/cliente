@@ -54,6 +54,8 @@
 
 		</div>
 
+		<pagination :links = "links" />
+
 		<router-link v-bind:to = "{ name: 'PostCreate' }" class = "bg-blue-900 text-white font-semibold rounded-md px-4 py-2 float-right my-8">Registrar</router-link>
 
 	</div>
@@ -62,26 +64,62 @@
 
 <script lang = "ts" setup>
 
-	import { ref, watch, onMounted } from 'vue'
+	import { ref, onMounted, computed, watch } from 'vue'
+	import { useRoute, useRouter } from 'vue-router'
 	import { IPost } from '../interfaces/constants'
-	import postService from '../services/postService'
+	import api from '../services/api'
 
 	import InputNew from '../components/InputNew.vue'
+	import Pagination from '../components/Pagination.vue'
 
 	const posts = ref<IPost[]>([])
 	const search = ref('')
+	const links = ref({} as any)
+
+	const route = useRoute()
+	const router = useRouter()
+
+	const page = computed(() => {
+
+		let page = route.query.page ?? 1
+
+		if(Number(page) > links.value.lastPage) {
+
+			router.replace({ 
+
+				query: { page: links.value.lastPage }
+
+			})
+
+			return links.value.lastPage
+
+		}
+
+		return page
+
+	})
 
 	const getPosts = async () => {
 
-		const response = await postService.index(search.value)
+		const response = await api.get('/posts?perPage=5&page='+page.value+'&filter[title]='+search.value)
 
 		posts.value = response.data.data
+
+		links.value = {
+
+			'links': response.data.meta.links,
+			'lastPage': response.data.meta.last_page,
+			'from': response.data.meta.from,
+			'to': response.data.meta.to,
+			'total': response.data.meta.total
+
+		}
 
 	}
 
 	const deletePost = async (id: number) => {
 
-		await postService.delete(id)
+		await api.delete('/posts/'+id)
 
 		await getPosts()
 
@@ -90,6 +128,8 @@
 	onMounted(getPosts)
 
 	watch(search, getPosts)
+
+	watch(page, getPosts)
 
 </script>
 

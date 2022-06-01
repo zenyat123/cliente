@@ -88,8 +88,8 @@
 	import { ref, onMounted } from 'vue'
 	import { useRouter } from 'vue-router'
 	import { ICategory, IPost } from '../interfaces/constants'
-	import categoryService from '@/services/categoryService'
-	import postService from '@/services/postService'
+	import categoryService from '../services/categoryService'
+	import postService from '../services/postService'
 
 	import InputNew from '@/components/InputNew.vue'
 	import ButtonNew from '@/components/ButtonNew.vue'
@@ -97,7 +97,7 @@
 	const router = useRouter()
 	
 	const categories = ref<ICategory[]>([])
-	const post = ref<IPost>({})
+	const post = ref<IPost>({} as IPost)
 
 	const getCategories = async () => {
 

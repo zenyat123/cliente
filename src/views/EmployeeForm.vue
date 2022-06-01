@@ -15,7 +15,7 @@
     import { ref, onBeforeMount } from 'vue'
     import { useRoute } from 'vue-router'
     import { IEmployee } from '../interfaces/constants'
-    import api from '../services/api'
+    import employeeService from '../services/employeeService'
 
     import FormNew from '@/components/FormNew.vue'
 
@@ -27,7 +27,7 @@
 
         if(route.params.id) {
 
-            const response = await api.get('/employees/'+route.params.id)
+            const response = await employeeService.show(route.params.id as string)
 
             employee.value = response.data.data
 

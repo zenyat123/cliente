@@ -40,23 +40,19 @@
 
     import { ref, onMounted } from 'vue'
     import { IEmployee } from '../interfaces/constants'
-    import api from '../services/api'
+    import employeeService from '../services/employeeService'
 
     const employees = ref<IEmployee[]>([])
 
     const getEmployees = async () => {
 
-        const response = await api.get('/employees')
+        const response = await employeeService.index()
 
         employees.value = response.data.data
 
     }
 
-    onMounted(() => {
-
-        getEmployees()
-
-    })
+    onMounted(getEmployees)
 
 </script>
 
