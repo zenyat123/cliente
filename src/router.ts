@@ -14,6 +14,33 @@ const routes = [
 
 	{
 
+		path: '/employees',
+		name: 'Employees',
+		component: () => import('@/views/Employees.vue'),
+		meta: { requiresAuth: true }
+
+	},
+
+	{
+
+		path: '/employees/:id',
+		name: 'Employee',
+		component: () => import('@/views/Employee.vue'),
+		meta: { requiresAuth: true }
+
+	},
+
+	{
+
+		path: '/employee-form/:id?',
+		name: 'EmployeeForm',
+		component: () => import('@/views/EmployeeForm.vue'),
+		meta: { requiresAuth: true }
+
+	},
+
+	{
+
 		path: '/posts',
 		name: 'Posts',
 		component: () => import('@/views/Posts.vue'),

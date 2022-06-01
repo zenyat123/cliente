@@ -2,7 +2,7 @@
 
 <template>
 
-	<div class = "w-90 absolute top-12 right-1">
+	<div class = "w-90 absolute top-2 right-1">
 
 		<input-new type = "text" v-model = "search" placeholder = "Buscar..." />
 
@@ -36,13 +36,13 @@
 
 						<router-link v-bind:to = "{ name: 'PostEdit', params: { id: post.id } }" class = "bg-blue-900 text-white font-semibold rounded-md px-3 m-3">
 
-							edit 
+							editar
 
 						</router-link>
 
 						<button v-on:click = "deletePost(post.id)" class = "bg-red-900 text-white font-semibold rounded-md px-3 m-3">
 
-							delete
+							eliminar
 
 						</button>
 
