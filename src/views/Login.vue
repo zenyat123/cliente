@@ -42,53 +42,23 @@
 
 </template>
 
-<script>
+<script lang = "ts" setup>
 
-	import { mapMutations, mapState } from 'vuex'
+    import { ref } from 'vue'
+	import { useRouter } from 'vue-router'
+	import { useAuthStore } from '../stores/auth'
 
-	export default {
+	const router = useRouter()
+	const auth = useAuthStore()
 
-		data() {
+	const email = ref('')
+	const password = ref('')
 
-			return {
+	const login = async () => {
 
-				email: '',
-				password: ''
+		await auth.login({ email: email.value, password: password.value })
 
-			}
-
-		},
-
-		computed: {
-
-			...mapState(['auth'])
-
-		},
-
-		methods: {
-
-			...mapMutations(['setAuth']),
-
-			login() {
-
-				this.axios.post('/api/login', {
-
-					email: this.email,
-					password: this.password
-
-				}).then(response => {
-
-					localStorage.setItem('auth', JSON.stringify(response.data));
-
-					this.setAuth(response.data);
-
-					this.$router.push({ name: 'Posts' });
-
-				})
-
-			}
-
-		}
+		router.push('/posts')
 
 	}
 

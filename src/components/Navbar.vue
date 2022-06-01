@@ -1,21 +1,20 @@
 
 
-<script setup>
+<script lang = "ts" setup>
 
-    import { ref } from 'vue'
-    import { useStore } from 'vuex'
+    import { useRouter } from 'vue-router'
+    import { useAuthStore } from '../stores/auth'
 
-    const store = useStore()
+    const router = useRouter()
+    const auth = useAuthStore()
 
-    const auth = ref(store.state.auth)
+    const logout = async () => {
 
-    store.watch(() => store.state.auth, (value) => {
+        await auth.logout()
 
-        auth.value = value
+        router.push('/')
 
-    })
-
-    const logout = () => store.dispatch('logout')
+    }
 
 </script>
 
@@ -23,7 +22,7 @@
 
     <header class = "border-b">
 
-        <div class = "max-w-7xl mx-auto" v-if = "auth">
+        <div class = "max-w-7xl mx-auto" v-if = "auth.isAuthenticated">
 
             <nav class = "flex items-center relative px-4">
 
