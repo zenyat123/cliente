@@ -4,11 +4,19 @@
 
 	<div class = "max-w-7xl mx-auto">
 
-		<h1 class = "font-semibold my-8">{{ post.title }}</h1>
+		<h1 class = "text-3xl text-blue-900 font-semibold mt-8 mb-16">{{ post.title }}</h1>
 
-		<p class = "text-justify">{{ post.content }}</p>
+		<div class = "bg-blue-100 rounded-lg h-96 mb-6"></div>
 
 		<span class = "font-semibold">Categoría:</span> {{ category }}
+
+		<p class = "text-justify my-3">
+
+			<span class = "font-semibold">Contenido:</span> 
+
+			{{ post.content }}
+
+		</p>
 
 	</div>
 

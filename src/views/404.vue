@@ -2,17 +2,11 @@
 
 <template>
 
-	<div class = "max-w-7xl mx-auto my-8">
+	<div class = "max-w-7xl mx-auto">
 
-		<h1 class = "text-center">404 Not found</h1>
+		<h1 class = "text-center my-96">404 Not found</h1>
 
 	</div>
 
 </template>
-
-<script>
-
-
-
-</script>
 

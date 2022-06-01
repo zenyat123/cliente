@@ -4,46 +4,78 @@
 
 	<div class = "max-w-7xl mx-auto">
 
-		<h1 class = "font-semibold my-8">Registrar publicación</h1>
+		<h1 class = "text-3xl text-blue-900 font-semibold mt-8 mb-16">Registrar publicación</h1>
 
-		<form v-on:submit.prevent = "savePost()" class = "my-8">
+		<form v-on:submit.prevent = "savePost()">
 
-			<label for = "title">Título:</label>
+			<div class = "grid grid-cols-3 gap-8">
 
-			<input type = "text" v-model = "post.title">
+				<div class = "col-span-1">
 
-			<label for = "url">Url:</label>
+					<label for = "title">Título:</label>
 
-			<input type = "text" v-model = "post.url">
+					<input-new type = "text" v-model = "post.title" />
 
-			<label for = "resume">Resumen:</label>
+				</div>
 
-			<input type = "text" v-model = "post.resume">
+				<div class = "col-span-1">
 
-			<label for = "content">Contenido:</label>
+					<label for = "url">Url:</label>
 
-			<input type = "text" v-model = "post.content">
+					<input-new type = "text" v-model = "post.url" />
 
-			<label for = "status">Estado</label>
+				</div>
 
-			<select v-model = "post.status">
+				<div class = "col-span-1">
 
-				<option value = "0">Borrador</option>
-				<option value = "1">Publicado</option>
+					<label for = "resume">Resumen:</label>
 
-			</select>
+					<input-new type = "text" v-model = "post.resume" />
 
-			<label for = "category-id">Categoría:</label>
+				</div>
 
-			<select v-model = "post.category_id">
+				<div class = "col-span-1">
 
-				<option value = "" selected disabled>Seleccionar</option>
+					<label for = "content">Contenido:</label>
 
-				<option v-for = "category in categories" v-bind:key = "category.id" v-bind:value = "category.id">{{ category.category }}</option>
+					<input-new type = "text" v-model = "post.content" />
 
-			</select>
+				</div>
 
-			<button class = "float-right font-semibold my-8">Registrar</button>
+				<div class = "col-span-1">
+
+					<label for = "status">Estado:</label>
+
+					<select v-model = "post.status" class = "w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none">
+
+						<option value = "0">Borrador</option>
+						<option value = "1">Publicado</option>
+
+					</select>
+
+				</div>
+
+				<div class = "col-span-1">
+
+					<label for = "category-id">Categoría:</label>
+
+					<select v-model = "post.category_id" class = "w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none">
+
+						<option value = "" selected disabled>Seleccionar</option>
+
+						<option v-for = "category in categories" v-bind:key = "category.id" v-bind:value = "category.id">{{ category.category }}</option>
+
+					</select>
+
+				</div>
+
+				<div class = "col-span-3">
+
+					<button-new class = "float-right my-8">Registrar</button-new>
+
+				</div>
+
+			</div>
 
 		</form>
 
@@ -53,7 +85,17 @@
 
 <script>
 
+	import InputNew from '@/components/InputNew.vue'
+	import ButtonNew from '@/components/ButtonNew.vue'
+
 	export default {
+
+		components: {
+
+			InputNew,
+			ButtonNew
+
+		},
 
 		data() {
 

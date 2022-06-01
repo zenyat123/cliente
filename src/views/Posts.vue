@@ -2,31 +2,59 @@
 
 <template>
 
+	<div class = "w-90 absolute top-1 right-1">
+
+		<input-new type = "text" v-model = "search" placeholder = "Buscar..." />
+
+	</div>
+
 	<div class = "max-w-7xl mx-auto">
 
-		<h1 class = "flex justify-center font-semibold my-8">Publicaciones</h1>
+		<h1 class = "flex justify-center text-3xl text-blue-900 font-semibold mt-8 mb-16">Publicaciones</h1>
 
-		<input type = "text" v-model = "search" class = "float-right" placeholder = "Buscar...">
+		<div class = "grid grid-cols-5 gap-5">
 
-		<ul>
+			<div v-for = "post in posts" v-bind:key = "post.id">
 
-			<li v-for = "post in posts" v-bind:key = "post.id">
+				<figure class = "rounded-lg bg-white shadow-xl my-3">
 
-				<router-link v-bind:to = "{ name: 'Post', params: { id: post.id } }">
+					<div class = "bg-blue-100 rounded-t-lg h-48"></div>
 
-					{{ post.title }}
+					<div class = "p-3">
 
-				</router-link>
+						<router-link v-bind:to = "{ name: 'Post', params: { id: post.id } }">
 
-				<router-link v-bind:to = "{ name: 'PostEdit', params: { id: post.id } }" title = "Editar" class = "px-3"> / </router-link>
+							<span class = "font-medium text-lg text-blue-900"> {{ post.title }} </span>
 
-				<button v-on:click = "deletePost(post.id)" title = "eliminar"> x </button>
+						</router-link>
 
-			</li>
+						<p class = "line-clamp-3"> {{ post.resume }} </p>
 
-		</ul>
+					</div>
 
-		<router-link v-bind:to = "{ name: 'PostCreate' }" class = "float-right font-semibold my-8">Registrar</router-link>
+					<div class = "flex justify-between">
+
+						<router-link v-bind:to = "{ name: 'PostEdit', params: { id: post.id } }" title = "Editar" class = "bg-blue-900 text-white font-semibold rounded-md px-3 m-3">
+
+							edit 
+
+						</router-link>
+
+						<button v-on:click = "deletePost(post.id)" title = "eliminar" class = "bg-red-900 text-white font-semibold rounded-md px-3 m-3">
+
+							delete
+
+						</button>
+
+					</div>
+
+				</figure>
+
+			</div>
+
+		</div>
+
+		<router-link v-bind:to = "{ name: 'PostCreate' }" class = "bg-blue-900 text-white font-semibold rounded-md px-4 py-2 float-right my-8">Registrar</router-link>
 
 	</div>
 
@@ -34,7 +62,15 @@
 
 <script>
 
+	import InputNew from '@/components/InputNew.vue'
+
 	export default {
+
+		components: {
+
+			InputNew
+
+		},
 
 		data() {
 
