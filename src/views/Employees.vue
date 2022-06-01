@@ -1,34 +1,5 @@
 
 
-<script setup lang = "ts">
-
-    import { ref } from 'vue'
-    import { onMounted } from 'vue'
-    import axios from 'axios'
-
-    import { IEmployee } from '@/constants'
-
-    const employees = ref<IEmployee[]>([])
-
-    onMounted(async() => {
-
-        getEmployees()
-
-    })
-
-    const getEmployees = () => {
-
-        axios.get('/api/employees')
-             .then(response => {
-
-                employees.value = response.data.data
-
-        })
-
-    }
-
-</script>
-
 <template>
 
     <div class = "max-w-7xl mx-auto">
@@ -64,4 +35,28 @@
     </div>
 
 </template>
+
+<script lang = "ts" setup>
+
+    import { ref, onMounted } from 'vue'
+    import { IEmployee } from '../interfaces/constants'
+    import api from '../services/api'
+
+    const employees = ref<IEmployee[]>([])
+
+    const getEmployees = async () => {
+
+        const response = await api.get('/employees')
+
+        employees.value = response.data.data
+
+    }
+
+    onMounted(() => {
+
+        getEmployees()
+
+    })
+
+</script>
 

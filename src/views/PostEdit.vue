@@ -83,76 +83,53 @@
 
 </template>
 
-<script>
+<script lang = "ts" setup>
+
+	import { ref, onMounted } from 'vue'
+	import { useRoute, useRouter } from 'vue-router'
+	import { ICategory, IPost } from '@/interfaces/constants'
+	import categoryService from '@/services/categoryService'
+	import postService from '@/services/postService'
 
 	import InputNew from '@/components/InputNew.vue'
 	import ButtonNew from '@/components/ButtonNew.vue'
 
-	export default {
+	const route = useRoute()
+	const router = useRouter()
 
-		components: {
+	const categories = ref<ICategory[]>([])
+	const post = ref<IPost>({})
 
-			InputNew,
-			ButtonNew
+	const getPost = async () => {
 
-		},
+		const response = await postService.show(route.params.id as string)
 
-		data() {
-
-			return {
-
-				categories: {},
-				post: {}
-
-			}
-
-		},
-
-		mounted() {
-
-			this.getCategories();
-			this.getPost();
-
-		},
-
-		methods: {
-
-			getCategories() {
-
-				this.axios.get('/api/categories')
-					.then(response => {
-
-						this.categories = response.data.data;
-
-					});
-
-			},
-
-			getPost() {
-
-				this.axios.get('/api/posts/' + this.$route.params.id + '?included=category')
-					.then(response => {
-
-						this.post = response.data.data;
-
-					});
-
-			},
-
-			editPost() {
-
-				this.axios.put('/api/posts/' + this.$route.params.id, this.post)
-				    .then( () => {
-
-						this.$router.push({ name: 'Posts' });
-
-					});
-
-			}
-
-		}
+		post.value = response.data.data
 
 	}
+
+	const getCategories = async () => {
+
+		const response = await categoryService.index()
+
+		categories.value = response.data.data
+
+	}
+
+	const editPost = async () => {
+
+		await postService.update(route.params.id as string, post.value)
+
+		router.push('/posts')
+
+	}
+
+	onMounted(() => {
+
+		getCategories()
+		getPost()
+
+	})
 
 </script>
 

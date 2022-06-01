@@ -1,53 +1,5 @@
 
 
-<script setup lang = "ts">
-
-    import { ref } from 'vue'
-    import { onMounted } from 'vue'
-    import { useRoute } from 'vue-router'
-    import { useRouter } from 'vue-router'
-    import axios from 'axios'
-
-    import { IEmployee } from '@/constants'
-
-    const { params } = useRoute()
-
-    const router = useRouter()
-
-    const employee = ref<IEmployee[]>([])
-
-    onMounted(async() => {
-
-        getEmployee()
-
-    })
-
-    const getEmployee = async() => {
-
-        axios.get('/api/employees/' + params.id)
-             .then(response => {
-
-                employee.value = response.data.data
-
-             })
-
-    }
-
-    const remove = async(id:number) => {
-
-        const response = confirm('confirma la eliminación del identificador ' + id)
-
-        if(response) {
-
-            axios.delete('/api/employees/' + id)
-                .then( () => router.push('/employees') )
-
-        }
-
-    }
-
-</script>
-
 <template>
 
     <div class = "max-w-7xl mx-auto">
@@ -75,4 +27,44 @@
     </div>
 
 </template>
+
+<script lang = "ts" setup>
+
+    import { ref, onMounted } from 'vue'
+    import { useRoute, useRouter } from 'vue-router'
+    import { IEmployee } from '../interfaces/constants'
+    import api from '../services/api'
+
+    const route = useRoute()
+    const router = useRouter()
+
+    const employee = ref<IEmployee>({} as IEmployee)
+
+    const getEmployee = async () => {
+
+        const response = await api.get('/employees/'+route.params.id)
+
+        employee.value = response.data.data
+
+    }
+
+    const remove = async (id: number) => {
+
+        if(confirm('¿Confirma la eliminación del identificador '+id+'?')) {
+
+            await api.delete('/employees/'+id)
+
+            router.push('/employees')
+
+        }
+
+    }
+
+    onMounted(() => {
+
+        getEmployee()
+
+    })
+
+</script>
 

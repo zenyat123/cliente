@@ -60,72 +60,36 @@
 
 </template>
 
-<script>
+<script lang = "ts" setup>
 
-	import InputNew from '@/components/InputNew.vue'
+	import { ref, watch, onMounted } from 'vue'
+	import { IPost } from '../interfaces/constants'
+	import postService from '../services/postService'
 
-	export default {
+	import InputNew from '../components/InputNew.vue'
 
-		components: {
+	const posts = ref<IPost[]>([])
+	const search = ref('')
 
-			InputNew
+	const getPosts = async () => {
 
-		},
+		const response = await postService.index(search.value)
 
-		data() {
-
-			return {
-
-				posts: [],
-				search: ''
-
-			}
-
-		},
-
-		mounted() {
-
-			this.getPosts();
-
-		},
-
-		watch: {
-
-			search() {
-
-				this.getPosts();
-
-			}
-
-		},
-
-		methods: {
-
-			getPosts() {
-
-				this.axios.get('/api/posts?filter[title]=' + this.search)
-				    .then(response => {
-
-				     	this.posts = response.data.data;
-
-					});
-
-			},
-
-			deletePost(id) {
-
-				this.axios.delete('/api/posts/' + id)
-					.then( () => {
-
-						this.getPosts();
-
-					});
-
-			}
-
-		}
+		posts.value = response.data.data
 
 	}
+
+	const deletePost = async (id: number) => {
+
+		await postService.delete(id)
+
+		await getPosts()
+
+	}
+
+	onMounted(getPosts)
+
+	watch(search, getPosts)
 
 </script>
 

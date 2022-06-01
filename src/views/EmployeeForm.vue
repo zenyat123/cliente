@@ -1,36 +1,5 @@
 
 
-<script setup lang = "ts">
-
-    import { ref } from 'vue'
-    import { onBeforeMount } from 'vue'
-    import { useRoute } from 'vue-router'
-    import axios from 'axios'
-
-    import FormNew from '@/components/FormNew.vue'
-    import { IEmployee } from '@/constants'
-
-    const { params } = useRoute()
-
-    const employee = ref<null | IEmployee>(null)
-
-    onBeforeMount(async() => {
-
-        if(params.id) {
-
-            axios.get('/api/employees/' + params.id)
-                 .then(response => {
-
-                employee.value = response.data.data
-
-            })
-
-        }
-
-    })
-
-</script>
-
 <template>
 
     <div class = "max-w-7xl mx-auto">
@@ -40,4 +9,31 @@
     </div>
 
 </template>
+
+<script lang = "ts" setup>
+
+    import { ref, onBeforeMount } from 'vue'
+    import { useRoute } from 'vue-router'
+    import { IEmployee } from '../interfaces/constants'
+    import api from '../services/api'
+
+    import FormNew from '@/components/FormNew.vue'
+
+    const route = useRoute()
+
+    const employee = ref<IEmployee | null>(null)
+
+    onBeforeMount(async () => {
+
+        if(route.params.id) {
+
+            const response = await api.get('/employees/'+route.params.id)
+
+            employee.value = response.data.data
+
+        }
+
+    })
+
+</script>
 

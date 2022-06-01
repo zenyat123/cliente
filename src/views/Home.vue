@@ -6,21 +6,9 @@
 
 </template>
 
-<script>
+<script lang = "ts" setup>
 
-	export default {
 
-		data() {
-
-			return {
-
-				
-
-			}
-
-		}
-
-	}
 
 </script>
 

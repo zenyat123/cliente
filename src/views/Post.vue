@@ -24,48 +24,30 @@
 
 </template>
 
-<script>
+<script lang = "ts" setup>
 
-	export default {
+	import { ref, onMounted } from 'vue'
+	import { useRoute } from 'vue-router'
+	import { IUser, ICategory, IPost } from '../interfaces/constants'
+	import postService from '../services/postService'
 
-		data() {
+	const route = useRoute()
 
-			return {
+	const user = ref<IUser>({} as IUser)
+	const category = ref<ICategory>()
+	const post = ref<IPost>({} as IPost)
 
-				post: {},
-				category: {},
-				user: {}
+	const getPost = async () => {
 
-			}
+		const response = await postService.show(route.params.id as string)
 
-		},
-
-		mounted() {
-
-			this.getPost();
-
-		},
-
-		methods: {
-
-			getPost() {
-
-				this.axios.get('/api/posts/' + this.$route.params.id + '?included=category,user')
-				    .then(response => {
-
-					  	this.post = response.data.data;
-
-					  	this.category = response.data.data.category.category;
-
-					  	this.user = response.data.data.user;
-
-					});
-
-			}
-
-		}
+		user.value = response.data.data.user
+		category.value = response.data.data.category.category
+		post.value = response.data.data
 
 	}
+
+	onMounted(getPost)
 
 </script>
 

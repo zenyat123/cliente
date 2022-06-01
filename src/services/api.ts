@@ -10,6 +10,21 @@ const api = axios.create({
 
 })
 
+// Interceptor de petición
+api.interceptors.request.use(config => {
+
+    const auth = useAuthStore()
+
+    if(auth.token) {
+
+        config.headers['Authorization'] = 'Bearer ' + auth.token
+
+    }
+
+    return config
+
+})
+
 // Interceptor de respuesta
 api.interceptors.response.use(
 
@@ -50,21 +65,6 @@ api.interceptors.response.use(
     }
 
 )
-
-// Interceptor de petición
-api.interceptors.request.use(config => {
-
-    const auth = useAuthStore()
-
-    if(auth.token) {
-
-        config.headers['Authorization'] = 'Bearer ' + auth.token
-
-    }
-
-    return config
-
-})
 
 export default api
 
