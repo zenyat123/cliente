@@ -119,7 +119,7 @@
 
 			getCategories() {
 
-				this.axios.get('http://localhost:8000/api/categories')
+				this.axios.get('/api/categories')
 					.then(response => {
 
 						this.categories = response.data.data;
@@ -130,7 +130,7 @@
 
 			getPost() {
 
-				this.axios.get('http://localhost:8000/api/posts/' + this.$route.params.id + '?included=category')
+				this.axios.get('/api/posts/' + this.$route.params.id + '?included=category')
 					.then(response => {
 
 						this.post = response.data.data;
@@ -141,7 +141,7 @@
 
 			editPost() {
 
-				this.axios.put('http://localhost:8000/api/posts/' + this.$route.params.id, this.post)
+				this.axios.put('/api/posts/' + this.$route.params.id, this.post)
 				    .then( () => {
 
 						this.$router.push({ name: 'Posts' });

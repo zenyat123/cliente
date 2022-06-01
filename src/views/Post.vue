@@ -8,7 +8,9 @@
 
 		<div class = "bg-blue-100 rounded-lg h-96 mb-6"></div>
 
-		<span class = "font-semibold">Categoría:</span> {{ category }}
+		<p class = "my-3"><span class = "font-semibold">Autor:</span> {{ user.name }}</p>
+
+		<p><span class = "font-semibold">Categoría:</span> {{ category }}</p>
 
 		<p class = "text-justify my-3">
 
@@ -31,7 +33,8 @@
 			return {
 
 				post: {},
-				category: {}
+				category: {},
+				user: {}
 
 			}
 
@@ -47,12 +50,14 @@
 
 			getPost() {
 
-				this.axios.get('http://localhost:8000/api/posts/' + this.$route.params.id + '?included=category')
+				this.axios.get('/api/posts/' + this.$route.params.id + '?included=category,user')
 				    .then(response => {
 
 					  	this.post = response.data.data;
 
-					  	this.category = this.post.category.category;
+					  	this.category = response.data.data.category.category;
+
+					  	this.user = response.data.data.user;
 
 					});
 

@@ -8,5 +8,9 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import './style.css'
 
+axios.defaults.baseURL = 'http://localhost:8000'
+
+axios.defaults.withCredentials = true
+
 createApp(App).use(router).use(store).use(VueAxios, axios).mount('#app')
 

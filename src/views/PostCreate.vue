@@ -127,7 +127,7 @@
 
 			getCategories() {
 
-				this.axios.get('http://localhost:8000/api/categories')
+				this.axios.get('/api/categories')
 				    .then(response => {
 
 				    	this.categories = response.data.data;
@@ -138,7 +138,7 @@
 
 			savePost() {
 
-				this.axios.post('http://localhost:8000/api/posts', this.post)
+				this.axios.post('/api/posts', this.post)
 					.then(response => {
 
 					 	this.post = {

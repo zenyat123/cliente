@@ -2,7 +2,7 @@
 
 <template>
 
-	<div class = "w-90 absolute top-1 right-1">
+	<div class = "w-90 absolute top-12 right-1">
 
 		<input-new type = "text" v-model = "search" placeholder = "Buscar..." />
 
@@ -34,13 +34,13 @@
 
 					<div class = "flex justify-between">
 
-						<router-link v-bind:to = "{ name: 'PostEdit', params: { id: post.id } }" title = "Editar" class = "bg-blue-900 text-white font-semibold rounded-md px-3 m-3">
+						<router-link v-bind:to = "{ name: 'PostEdit', params: { id: post.id } }" class = "bg-blue-900 text-white font-semibold rounded-md px-3 m-3">
 
 							edit 
 
 						</router-link>
 
-						<button v-on:click = "deletePost(post.id)" title = "eliminar" class = "bg-red-900 text-white font-semibold rounded-md px-3 m-3">
+						<button v-on:click = "deletePost(post.id)" class = "bg-red-900 text-white font-semibold rounded-md px-3 m-3">
 
 							delete
 
@@ -103,7 +103,7 @@
 
 			getPosts() {
 
-				this.axios.get('http://localhost:8000/api/posts?filter[title]=' + this.search)
+				this.axios.get('/api/posts?filter[title]=' + this.search)
 				    .then(response => {
 
 				     	this.posts = response.data.data;
@@ -114,7 +114,7 @@
 
 			deletePost(id) {
 
-				this.axios.delete('http://localhost:8000/api/posts/' + id)
+				this.axios.delete('/api/posts/' + id)
 					.then( () => {
 
 						this.getPosts();

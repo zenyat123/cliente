@@ -14,13 +14,13 @@
 
 			<h1 class = "text-2xl text-semibold text-center text-gray-600 mb-12">Login</h1>
 
-			<form>
+			<form v-on:submit.prevent = "login">
 
 				<div class = "mb-4">
 
 					<label for = "email" class = "block text-gray-600">Usuario</label>
 
-					<input type = "text" class = "w-full border border-gray-300 rounded-md py-2 px-3 focus:border-blue-500 focus:outline-none">
+					<input type = "email" v-model = "email" class = "w-full border border-gray-300 rounded-md py-2 px-3 focus:border-blue-500 focus:outline-none">
 
 				</div>
 
@@ -28,7 +28,7 @@
 
 					<label for = "password" class = "block text-gray-600">Contraseña</label>
 
-					<input type = "password" class = "w-full border border-gray-300 rounded-md py-2 px-3 focus:border-blue-500 focus:outline-none">
+					<input type = "password" v-model = "password" class = "w-full border border-gray-300 rounded-md py-2 px-3 focus:border-blue-500 focus:outline-none">
 
 				</div>
 
@@ -44,7 +44,56 @@
 
 <script>
 
+	import { mapMutations, mapState } from 'vuex'
 
+	export default {
+
+		data() {
+
+			return {
+
+				email: '',
+				password: ''
+
+			}
+
+		},
+
+		computed: {
+
+			...mapState(['auth'])
+
+		},
+
+		methods: {
+
+			...mapMutations(['setAuth']),
+
+			login() {
+
+				this.axios.post('/oauth/token', {
+
+					grant_type: 'password',
+					client_id: '96705652-eb8b-4854-a6ce-981fc2ede52c',
+					client_secret: 'qITW9dzo9czrGrLr2BQgCc1TeHZxFlg9eqfvIfOV',
+					username: this.email,
+					password: this.password
+
+				}).then(response => {
+
+					localStorage.setItem('auth', JSON.stringify(response.data));
+
+					this.setAuth(response.data);
+
+					this.$router.push({ name: 'Posts' });
+
+				})
+
+			}
+
+		}
+
+	}
 
 </script>
 
